@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "301193044697",
+    "firebase_url": "https://first-app-5ca5d.firebaseio.com",
+    "project_id": "first-app-5ca5d",
+    "storage_bucket": "first-app-5ca5d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:301193044697:android:e8779453c4c25f567994c8",
+        "android_client_info": {
+          "package_name": "com.varma.hemanshu.firebasefunctions"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "301193044697-2rhoivtbjmjiq1pe56q1q40bu60dcp7h.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCetyAiNUDHPEqH7aJCPbp18rqs9-1aoHU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "301193044697-jcr8qa75r2r3kog1guqvukla0v2pcklg.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
