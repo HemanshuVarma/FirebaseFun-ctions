@@ -14,6 +14,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import com.google.firebase.messaging.FirebaseMessaging
 import com.varma.hemanshu.firebasefunctions.R
 import com.varma.hemanshu.firebasefunctions.utils.SharedPrefUtils
 import com.varma.hemanshu.firebasefunctions.utils.cancelAllNotifications
@@ -30,7 +31,6 @@ class HomeFragment : Fragment() {
     private val triggerTime: Long = 5_000L //5 seconds
     private val notificationTitle = "Hello Android"
     private val notificationMessage = "Welcome to Firebase Fun-ctions"
-    private val TAG = "HomeFragment"
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -88,12 +88,26 @@ class HomeFragment : Fragment() {
         val isFirstLaunch = SharedPrefUtils.getPrefData(requireContext())
         Log.i(TAG, "First Launch $isFirstLaunch")
         if (isFirstLaunch) {
+            //Local Channel
             createChannel(
                 requireContext(),
                 getString(R.string.local_notification_channel_id),
                 getString(R.string.local_notification_channel_name),
                 getString(R.string.local_notification_channel_description)
             )
+
+            //FCM Channel
+            createChannel(
+                requireContext(),
+                getString(R.string.fcm_notification_channel_id),
+                getString(R.string.fcm_notification_channel_name),
+                getString(R.string.fcm_notification_channel_description)
+            )
+
+            //Subscribe to specific topic in Firebase
+            subscribeTopic("development")
+            subscribeTopic("production")
+
             SharedPrefUtils.setPrefData(requireContext())
         }
     }
@@ -131,8 +145,20 @@ class HomeFragment : Fragment() {
         }
     }
 
+    private fun subscribeTopic(topic: String) {
+        FirebaseMessaging.getInstance().subscribeToTopic(topic)
+            .addOnCompleteListener { task ->
+                var message = "Success subscribing to $topic"
+                if (!task.isSuccessful) {
+                    message = "Failed subscribing to $topic"
+                }
+                Log.i(TAG, message)
+            }
+    }
 
     companion object {
         fun newInstance() = HomeFragment()
+
+        private const val TAG = "HomeFragment"
     }
 }

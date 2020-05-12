@@ -6,6 +6,7 @@ buildscript {
         material_version = '1.1.0'
         analytics_version = '17.4.1'
         crashlytics_version = '17.0.0'
+        messaging_version = '20.1.7'
     }
     repositories {
         google()
