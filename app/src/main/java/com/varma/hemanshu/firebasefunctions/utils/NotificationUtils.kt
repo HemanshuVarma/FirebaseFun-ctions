@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.BitmapFactory
 import androidx.core.app.NotificationCompat
+import androidx.core.content.ContextCompat
 import com.varma.hemanshu.firebasefunctions.MainActivity
 import com.varma.hemanshu.firebasefunctions.R
 
@@ -17,12 +18,17 @@ private val FLAGS = 0
 /**
  * Notification extension function.
  */
-fun NotificationManager.triggerNotification(
+fun triggerNotification(
     appContext: Context,
     channelId: String,
     title: String,
     message: String
 ) {
+
+    val notificationManager = ContextCompat.getSystemService(
+        appContext,
+        NotificationManager::class.java
+    ) as NotificationManager
 
     // Activity/Fragment to open when pending intent is handled
     val contentIntent = Intent(appContext, MainActivity::class.java).apply {
@@ -48,6 +54,7 @@ fun NotificationManager.triggerNotification(
     // Setting properties for notification
     val builder = NotificationCompat.Builder(appContext, channelId)
         .setSmallIcon(R.drawable.ic_android)
+        .setColor(appContext.resources.getColor(R.color.colorAndroidLogo))
         .setContentTitle(title)
         .setContentText(message)
         .setAutoCancel(true)
@@ -55,7 +62,7 @@ fun NotificationManager.triggerNotification(
         .setLargeIcon(androidLogo)
         .setContentIntent(contentPendingIntent)
 
-    notify(NOTIFICATION_ID, builder.build())
+    notificationManager.notify(NOTIFICATION_ID, builder.build())
 }
 
 /**
@@ -63,4 +70,12 @@ fun NotificationManager.triggerNotification(
  */
 fun NotificationManager.cancelAllNotifications() {
     cancelAll()
+}
+
+/**
+ * Cancels a specific notifications.
+ * @param notificationId ID of the notification to cancel
+ */
+fun NotificationManager.cancelNotification(notificationId: Int) {
+    cancel(notificationId)
 }
