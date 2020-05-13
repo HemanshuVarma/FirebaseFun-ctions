@@ -1,9 +1,7 @@
 <resources>
     <string name="app_name">Firebase Fun-ctions</string>
-    <string name="first_launch">first_launch</string>
     <string name="notify">Notify</string>
     <string name="notify_message">You\'ll be notified in 5 seconds</string>
-    <string name="shared_pref_key">Shared Pref</string>
 
     <!--Notification Channels-->
     <string name="local_notification_channel_id">notify_local</string>
@@ -12,4 +10,8 @@
     <string name="fcm_notification_channel_id">notify_fcm</string>
     <string name="fcm_notification_channel_name">Notify FCM</string>
     <string name="fcm_notification_channel_description">Channel for FCM notifications</string>
+
+    <!--Shared Pref-->
+    <string name="first_launch">first_launch</string>
+    <string name="notification_id">notification_id</string>
 </resources>

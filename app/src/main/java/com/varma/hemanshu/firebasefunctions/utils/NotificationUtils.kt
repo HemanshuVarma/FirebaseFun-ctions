@@ -5,6 +5,7 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.graphics.BitmapFactory
+import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
 import com.varma.hemanshu.firebasefunctions.MainActivity
@@ -29,6 +30,9 @@ fun triggerNotification(
     message: String
 ) {
 
+    val notificationId = SharedPrefUtils.getNextNotificationId(appContext)
+    Log.i("NotificationUtils", "Notification ID: $notificationId")
+
     val notificationManager = ContextCompat.getSystemService(
         appContext,
         NotificationManager::class.java
@@ -42,7 +46,7 @@ fun triggerNotification(
     //Pending Intent to handle click from notification panel
     val contentPendingIntent = PendingIntent.getActivity(
         appContext,
-        NOTIFICATION_ID,
+        notificationId,
         contentIntent,
         PendingIntent.FLAG_UPDATE_CURRENT
     )
@@ -66,7 +70,7 @@ fun triggerNotification(
         .setLargeIcon(androidLogo)
         .setContentIntent(contentPendingIntent)
 
-    notificationManager.notify(NOTIFICATION_ID, builder.build())
+    notificationManager.notify(notificationId, builder.build())
 }
 
 /**

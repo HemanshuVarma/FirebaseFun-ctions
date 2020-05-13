@@ -56,8 +56,12 @@ class HomeFragment : Fragment() {
     private fun activateTrigger() {
         Toast.makeText(context, getString(R.string.notify_message), Toast.LENGTH_SHORT).show()
 
-        //Clearing all notifications
-        notificationManager.cancelAllNotifications()
+        //Clearing previous notification with same Id
+        notificationManager.cancelNotification(
+            SharedPrefUtils.getCurrentNotificationId(
+                requireContext()
+            )
+        )
 
         //Countdown timer for 5 seconds
         timer = object : CountDownTimer(triggerTime, second) {
@@ -79,7 +83,7 @@ class HomeFragment : Fragment() {
      * if yes, then create channel(s) for notification
      */
     private fun isFirstLaunch() {
-        val isFirstLaunch = SharedPrefUtils.getPrefData(requireContext())
+        val isFirstLaunch = SharedPrefUtils.getLaunchPrefData(requireContext())
         Log.i(TAG, "First Launch $isFirstLaunch")
         if (isFirstLaunch) {
 
@@ -107,7 +111,7 @@ class HomeFragment : Fragment() {
                 FirebaseUtils.subscribeTopic("development")
                 FirebaseUtils.subscribeTopic("production")
             }
-            SharedPrefUtils.setPrefData(requireContext())
+            SharedPrefUtils.setLaunchPrefData(requireContext())
         }
     }
 
