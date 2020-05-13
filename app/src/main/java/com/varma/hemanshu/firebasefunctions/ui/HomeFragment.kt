@@ -13,8 +13,8 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import com.google.firebase.messaging.FirebaseMessaging
 import com.varma.hemanshu.firebasefunctions.R
+import com.varma.hemanshu.firebasefunctions.utils.FirebaseUtil
 import com.varma.hemanshu.firebasefunctions.utils.SharedPrefUtils
 import com.varma.hemanshu.firebasefunctions.utils.cancelAllNotifications
 import com.varma.hemanshu.firebasefunctions.utils.triggerNotification
@@ -102,8 +102,8 @@ class HomeFragment : Fragment() {
             )
 
             //Subscribe to specific topic in Firebase
-            subscribeTopic("development")
-            subscribeTopic("production")
+            FirebaseUtil.subscribeTopic("development")
+            FirebaseUtil.subscribeTopic("production")
 
             SharedPrefUtils.setPrefData(requireContext())
         }
@@ -136,17 +136,6 @@ class HomeFragment : Fragment() {
 
             notificationManager.createNotificationChannel(notificationChannel)
         }
-    }
-
-    private fun subscribeTopic(topic: String) {
-        FirebaseMessaging.getInstance().subscribeToTopic(topic)
-            .addOnCompleteListener { task ->
-                var message = "Success subscribing to $topic"
-                if (!task.isSuccessful) {
-                    message = "Failed subscribing to $topic"
-                }
-                Log.i(TAG, message)
-            }
     }
 
     companion object {

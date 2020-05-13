@@ -16,7 +16,11 @@ private val REQUEST_CODE = 0
 private val FLAGS = 0
 
 /**
- * Notification extension function.
+ * Function to trigger Notification.
+ * @param appContext Application Context
+ * @param channelId Channel to send notification to
+ * @param title Title in notification
+ * @param message Message/Description of Notification
  */
 fun triggerNotification(
     appContext: Context,
