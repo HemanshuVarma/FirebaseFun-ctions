@@ -28,7 +28,6 @@ class MessagingService : FirebaseMessagingService() {
      */
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
         super.onMessageReceived(remoteMessage)
-        Log.i(TAG, "From: ${remoteMessage.from}")
 
         /*
         //Parsed by Postman
@@ -43,28 +42,27 @@ class MessagingService : FirebaseMessagingService() {
         }
 */
 
-        //App running in Foreground
+        //App running in Foreground. Check if message contains notification payload.
         remoteMessage.notification?.let {
-            Log.i(TAG, "Notification data payload: ${it.title}")
-            Log.i(TAG, "Notification data payload: ${it.body}")
-            Log.i(TAG, "Notification data payload: ${it.imageUrl}")
-            Log.i(TAG, "Notification data payload: ${it.notificationPriority}")
-
             val title = it.title
             val message = it.body
             val image = it.imageUrl
+            val priority = it.notificationPriority
 
             triggerNotification(
-                applicationContext,
-                getString(R.string.fcm_notification_channel_id),
-                title!!,
-                message!!
+                applicationContext, getString(R.string.fcm_notification_channel_id),
+                title!!, message!!
             )
+
+            Log.i(TAG, "Notification title: $title")
+            Log.i(TAG, "Notification message: $message")
+            Log.i(TAG, "Notification image URL: $image")
+            Log.i(TAG, "Notification priority: $priority")
         }
 
-        //App running in Background
+        //App running in Background. Check if message contains data payload.
         remoteMessage.data.isNotEmpty().let {
-            Log.i(TAG, "Message data payload: ${remoteMessage.data["title"]}")
+            Log.i(TAG, "Message data payload: ${remoteMessage.data}")
         }
     }
 

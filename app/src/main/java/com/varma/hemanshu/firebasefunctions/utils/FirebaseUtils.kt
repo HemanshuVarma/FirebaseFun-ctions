@@ -6,7 +6,7 @@ import com.google.firebase.messaging.FirebaseMessaging
 /**
  * Util class for Firebase Functions
  */
-class FirebaseUtil {
+class FirebaseUtils {
     companion object {
         val TAG = "FirebaseUtil"
 

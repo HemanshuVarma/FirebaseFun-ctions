@@ -1,8 +1,6 @@
 package com.varma.hemanshu.firebasefunctions.ui
 
-import android.app.NotificationChannel
 import android.app.NotificationManager
-import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.os.CountDownTimer
@@ -14,10 +12,7 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.varma.hemanshu.firebasefunctions.R
-import com.varma.hemanshu.firebasefunctions.utils.FirebaseUtil
-import com.varma.hemanshu.firebasefunctions.utils.SharedPrefUtils
-import com.varma.hemanshu.firebasefunctions.utils.cancelAllNotifications
-import com.varma.hemanshu.firebasefunctions.utils.triggerNotification
+import com.varma.hemanshu.firebasefunctions.utils.*
 import kotlinx.android.synthetic.main.fragment_home.*
 
 /**
@@ -87,54 +82,32 @@ class HomeFragment : Fragment() {
         val isFirstLaunch = SharedPrefUtils.getPrefData(requireContext())
         Log.i(TAG, "First Launch $isFirstLaunch")
         if (isFirstLaunch) {
-            //Local Channel
-            createChannel(
-                getString(R.string.local_notification_channel_id),
-                getString(R.string.local_notification_channel_name),
-                getString(R.string.local_notification_channel_description)
-            )
 
-            //FCM Channel
-            createChannel(
-                getString(R.string.fcm_notification_channel_id),
-                getString(R.string.fcm_notification_channel_name),
-                getString(R.string.fcm_notification_channel_description)
-            )
+            //Channel is required for Android Oreo and above
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                //Local Channel
+                CommonUtils.createChannel(
+                    requireContext(),
+                    getString(R.string.local_notification_channel_id),
+                    getString(R.string.local_notification_channel_name),
+                    getString(R.string.local_notification_channel_description),
+                    NotificationManager.IMPORTANCE_HIGH
+                )
 
-            //Subscribe to specific topic in Firebase
-            FirebaseUtil.subscribeTopic("development")
-            FirebaseUtil.subscribeTopic("production")
+                //FCM Channel with high importance
+                CommonUtils.createChannel(
+                    requireContext(),
+                    getString(R.string.fcm_notification_channel_id),
+                    getString(R.string.fcm_notification_channel_name),
+                    getString(R.string.fcm_notification_channel_description),
+                    NotificationManager.IMPORTANCE_HIGH
+                )
 
+                //Subscribe to specific topic in Firebase
+                FirebaseUtils.subscribeTopic("development")
+                FirebaseUtils.subscribeTopic("production")
+            }
             SharedPrefUtils.setPrefData(requireContext())
-        }
-    }
-
-    /**
-     * Creates channel(s) for Android version Oreo, API 26 and above
-     * Note: Any customisation here will require clean install of app to reflect changes
-     */
-    private fun createChannel(
-        channelId: String,
-        channelName: String,
-        channelDescription: String
-    ) {
-        //Channel is required for Android Oreo and above
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            // Create channel to show notifications
-            val notificationChannel = NotificationChannel(
-                channelId,
-                channelName,
-                NotificationManager.IMPORTANCE_HIGH
-            )
-                .apply {
-                    enableLights(true)
-                    lightColor = Color.CYAN
-                    enableVibration(true)
-                    description = channelDescription
-                    setShowBadge(true)
-                }
-
-            notificationManager.createNotificationChannel(notificationChannel)
         }
     }
 
