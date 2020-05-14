@@ -44,6 +44,11 @@ class HomeFragment : Fragment() {
 
         isFirstLaunch()
 
+        //Deeplink Params
+        val intentAction = activity?.intent?.action
+        val intentData = activity?.intent?.data
+        Log.i(TAG, "action is $intentAction and data is $intentData")
+
         //Click listener for Notify button
         notify_btn.setOnClickListener {
             activateTrigger()
@@ -114,6 +119,7 @@ class HomeFragment : Fragment() {
             SharedPrefUtils.setLaunchPrefData(requireContext())
         }
     }
+
 
     companion object {
         fun newInstance() = HomeFragment()
