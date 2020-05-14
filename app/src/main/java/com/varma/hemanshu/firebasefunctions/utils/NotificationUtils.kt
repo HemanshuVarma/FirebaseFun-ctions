@@ -4,6 +4,7 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.util.Log
 import androidx.core.app.NotificationCompat
@@ -11,8 +12,7 @@ import androidx.core.content.ContextCompat
 import com.varma.hemanshu.firebasefunctions.MainActivity
 import com.varma.hemanshu.firebasefunctions.R
 
-// Notification ID.
-private val NOTIFICATION_ID = 0
+//Intent Flags
 private val REQUEST_CODE = 0
 private val FLAGS = 0
 
@@ -22,12 +22,14 @@ private val FLAGS = 0
  * @param channelId Channel to send notification to
  * @param title Title in notification
  * @param message Message/Description of Notification
+ * @param image Image in Notification tray
  */
 fun triggerNotification(
     appContext: Context,
     channelId: String,
     title: String,
-    message: String
+    message: String,
+    image: Bitmap?
 ) {
 
     val notificationId = SharedPrefUtils.getNextNotificationId(appContext)
@@ -51,12 +53,14 @@ fun triggerNotification(
         PendingIntent.FLAG_UPDATE_CURRENT
     )
 
-    val androidLogo = BitmapFactory.decodeResource(
-        appContext.resources,
-        R.drawable.android_logo
-    )
+    val largeIcon = image
+        ?: BitmapFactory.decodeResource(
+            appContext.resources,
+            R.drawable.android_logo
+        )
+
     val bigPicStyle = NotificationCompat.BigPictureStyle()
-        .bigPicture(androidLogo)
+        .bigPicture(largeIcon)
         .bigLargeIcon(null)
 
     // Setting properties for notification
@@ -67,7 +71,7 @@ fun triggerNotification(
         .setContentText(message)
         .setAutoCancel(true)
         .setStyle(bigPicStyle)
-        .setLargeIcon(androidLogo)
+        .setLargeIcon(largeIcon)
         .setContentIntent(contentPendingIntent)
 
     notificationManager.notify(notificationId, builder.build())

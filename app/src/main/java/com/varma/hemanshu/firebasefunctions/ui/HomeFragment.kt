@@ -77,7 +77,8 @@ class HomeFragment : Fragment() {
                     requireContext(),
                     getString(R.string.local_notification_channel_id),
                     notificationTitle,
-                    notificationMessage
+                    notificationMessage,
+                    null
                 )
             }
         }.start()
