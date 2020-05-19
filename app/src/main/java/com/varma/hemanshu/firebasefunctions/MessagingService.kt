@@ -17,8 +17,8 @@ class MessagingService : FirebaseMessagingService() {
         super.onNewToken(token)
         Log.i(TAG, "New Token received $token")
 
-        //TODO: Send the token to Server for easy retrieval
-
+        //Sending the generated token to FireStore
+        FirebaseUtils.sendTokenToServer(token)
     }
 
     /**
