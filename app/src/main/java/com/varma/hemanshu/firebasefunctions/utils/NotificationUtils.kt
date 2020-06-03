@@ -32,7 +32,7 @@ fun triggerNotification(
     image: Bitmap?
 ) {
 
-    val notificationId = SharedPrefUtils.getNextNotificationId(appContext)
+    val notificationId = SharedPrefUtils.getInstance(appContext).getNextNotificationId()
     Log.i("NotificationUtils", "Notification ID: $notificationId")
 
     val notificationManager = ContextCompat.getSystemService(

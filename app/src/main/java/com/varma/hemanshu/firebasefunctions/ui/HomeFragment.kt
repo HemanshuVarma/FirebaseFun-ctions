@@ -26,6 +26,7 @@ class HomeFragment : Fragment() {
     private val notificationTitle = "Hello Android"
     private val notificationMessage = "Welcome to Firebase Fun-ctions"
     private lateinit var notificationManager: NotificationManager
+    private lateinit var prefInstance: SharedPrefUtils
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -42,6 +43,7 @@ class HomeFragment : Fragment() {
             NotificationManager::class.java
         ) as NotificationManager
 
+        prefInstance = SharedPrefUtils.getInstance(requireContext())
         isFirstLaunch()
 
         //Deeplink Params
@@ -63,9 +65,7 @@ class HomeFragment : Fragment() {
 
         //Clearing previous notification with same Id
         notificationManager.cancelNotification(
-            SharedPrefUtils.getCurrentNotificationId(
-                requireContext()
-            )
+            prefInstance.getCurrentNotificationId()
         )
 
         //Countdown timer for 5 seconds
@@ -89,7 +89,7 @@ class HomeFragment : Fragment() {
      * if yes, then create channel(s) for notification
      */
     private fun isFirstLaunch() {
-        val isFirstLaunch = SharedPrefUtils.getLaunchPrefData(requireContext())
+        val isFirstLaunch = prefInstance.isFirstLaunch()
         Log.i(TAG, "First Launch $isFirstLaunch")
         if (isFirstLaunch) {
 
@@ -117,7 +117,7 @@ class HomeFragment : Fragment() {
                 FirebaseUtils.subscribeTopic("development")
                 FirebaseUtils.subscribeTopic("production")
             }
-            SharedPrefUtils.setLaunchPrefData(requireContext())
+            prefInstance.setIsFirstLaunch(false)
         }
     }
 

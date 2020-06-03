@@ -20,8 +20,12 @@ class FirebaseUtils {
     companion object {
         private val TAG = "FirebaseUtil"
 
+        //Storing token in single project of firebase. So naming AppName with bucket name.
+        //Feel free to use your own naming convention.
+        private const val COLLECTION_NAME = "Firebase-Functions-FCM-Token"
+
         //Instance of Firebase FireStore
-        private val dbRef by lazy { Firebase.firestore.collection("FCM-Token") }
+        private val dbRef by lazy { Firebase.firestore.collection(COLLECTION_NAME) }
 
         /**
          * A method to subscribe to topic for FCM
