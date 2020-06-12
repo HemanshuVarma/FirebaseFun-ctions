@@ -8,5 +8,6 @@
     <color name="colorRed">#F44336</color>
     <color name="colorWhite">@android:color/white</color>
     <color name="colorBlack">@android:color/black</color>
+    <color name="colorAndroidLogo">#3DDC84</color>
 
 </resources>

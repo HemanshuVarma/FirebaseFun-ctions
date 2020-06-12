@@ -6,6 +6,7 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:logo="@mipmap/ic_launcher_round"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
@@ -15,7 +16,54 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            <intent-filter>
+                <!-- Reach app from Google Search-->
+                <action android:name="android.intent.action.VIEW" />
+
+                <!--Open App from Browser links-->
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <!--Respond to implicit intent-->
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <!-- Accepts URIs that begin with "https://www.example.com/main” -->
+                <data
+                    android:host="www.example.com"
+                    android:pathPrefix="/main"
+                    android:scheme="https" />
+
+            </intent-filter>
+            <!--Having filter for each URI is recommended to prevent merged result by system,
+            if declared in one intent filter-->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.BROWSABLE" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <!-- Accepts URIs that begin with "example://main” -->
+                <data
+                    android:host="main"
+                    android:scheme="example" />
+            </intent-filter>
         </activity>
+        <service
+            android:name=".MessagingService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
+        <!--FCM Meta Config-->
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@drawable/ic_android" />
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_color"
+            android:resource="@color/colorAndroidLogo" />
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_channel_id"
+            android:value="@string/fcm_notification_channel_id" />
     </application>
 
 </manifest>

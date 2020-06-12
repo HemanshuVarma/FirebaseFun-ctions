@@ -18,7 +18,7 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
-        dataBinding{
+        dataBinding {
             enabled = true
         }
     }
@@ -44,6 +44,8 @@ dependencies {
     //Firebase dependencies
     implementation "com.google.firebase:firebase-analytics:$analytics_version"
     implementation "com.google.firebase:firebase-crashlytics:$crashlytics_version"
+    implementation "com.google.firebase:firebase-messaging:$messaging_version"
+    implementation "com.google.firebase:firebase-firestore-ktx:$firestore_version"
 
     //Local test dependencies
     testImplementation 'junit:junit:4.12'
